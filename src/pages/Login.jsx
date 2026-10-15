@@ -96,7 +96,7 @@ export default function Login() {
             </div>
             
             <div className="relative inline-block">
-               <h1 className={`text-lg font-black uppercase tracking-tighter italic bg-clip-text text-transparent animate-text-shimmer transition-all duration-700 bg-gradient-to-r from-slate-400 via-white to-slate-400 ${isSuccess ? 'from-green-400 via-white to-green-400' : ''}`}>
+               <h1 className={`text-3xl font-black uppercase tracking-tighter italic bg-clip-text text-transparent animate-text-shimmer transition-all duration-700 bg-gradient-to-r from-slate-400 via-white to-slate-400 ${isSuccess ? 'from-green-400 via-white to-green-400' : ''}`}>
                   Giặt - Sấy - Ủi
                </h1>
                
