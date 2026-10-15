@@ -56,11 +56,63 @@ export default function POS() {
     }
   });
 
-  // MỚI: Hàm điều phối in thông minh giữa Desktop và Mobile
+  // FIX: Hàm in chuyên dụng cho Mobile - Mở cửa sổ popup chứa đúng component InvoiceTemplate 80mm để nhận máy in Wi-Fi/LAN
+  const printMobileInvoice = () => {
+    if (!printRef.current) return;
+    const printContent = printRef.current.innerHTML;
+    
+    const printWindow = window.open('', '_blank', 'width=400,height=600');
+    if (!printWindow) {
+      alert("Vui lòng cho phép popup trên trình duyệt di động để in hóa đơn!");
+      return;
+    }
+
+    printWindow.document.write(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Hoa_Don_Ban_Hang</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <script src="https://cdn.tailwindcss.com"></script>
+          <style>
+            @page {
+              size: 80mm auto;
+              margin: 0;
+            }
+            body {
+              margin: 0;
+              padding: 0;
+              width: 80mm;
+              background: #fff;
+              color: #000;
+              font-family: system-ui, -apple-system, sans-serif;
+              -webkit-print-color-adjust: exact !important;
+              print-color-adjust: exact !important;
+            }
+            * { color: #000 !important; }
+            img { filter: grayscale(100%) contrast(150%) !important; }
+          </style>
+        </head>
+        <body>
+          ${printContent}
+        </body>
+      </html>
+    `);
+
+    printWindow.document.close();
+    printWindow.focus();
+
+    setTimeout(() => {
+      printWindow.print();
+      printWindow.close();
+    }, 500);
+  };
+
+  // Hàm điều phối in thông minh giữa Desktop và Mobile
   const handleUniversalPrint = () => {
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     if (isMobile) {
-        window.print();
+        printMobileInvoice();
         setTimeout(() => {
             setCart([]); 
             setCustomer({ name: '', phone: '', email: '', note: '' });
