@@ -43,7 +43,7 @@ export default function POS() {
 
   const printRef = useRef();
   
-  const handlePrint = useReactToPrint({
+  const handlePrintDesktop = useReactToPrint({
     contentRef: printRef,
     documentTitle: 'Hoa_Don_Ban_Hang',
     onAfterPrint: () => {
@@ -55,6 +55,24 @@ export default function POS() {
         fetchInitialData();
     }
   });
+
+  // MỚI: Hàm điều phối in thông minh giữa Desktop và Mobile
+  const handleUniversalPrint = () => {
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobile) {
+        window.print();
+        setTimeout(() => {
+            setCart([]); 
+            setCustomer({ name: '', phone: '', email: '', note: '' });
+            setDiscountTotal({ value: 0, type: 'VND' }); 
+            setCustomerCash(0);
+            setPrintData(null);
+            fetchInitialData();
+        }, 1000);
+    } else {
+        handlePrintDesktop();
+    }
+  };
 
   const fetchInitialData = async () => {
     // 1. Lấy tất cả sản phẩm còn hàng
@@ -216,7 +234,7 @@ export default function POS() {
 
       if (shouldPrint) {
         setPrintData(currentInvoiceData);
-        setTimeout(() => handlePrint(), 300);
+        setTimeout(() => handleUniversalPrint(), 300);
       } else {
         setCart([]); 
         setCustomer({ name: '', phone: '', email: '', note: '' });
