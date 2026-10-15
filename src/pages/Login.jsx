@@ -97,7 +97,7 @@ export default function Login() {
             
             <div className="relative inline-block">
                <h1 className={`text-2xl font-black uppercase tracking-tighter italic bg-clip-text text-transparent animate-text-shimmer transition-all duration-700 bg-gradient-to-r from-slate-400 via-white to-slate-400 ${isSuccess ? 'from-green-400 via-white to-green-400' : ''}`}>
-                  QLBH - Giặt Sấy
+                  Giặt Sấy Ủi
                </h1>
                
                <div className="relative h-[2px] w-full mt-2 overflow-hidden bg-white/5 rounded-full">
